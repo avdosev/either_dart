@@ -34,7 +34,6 @@ class WidgetReceivingData extends StatefulWidget {
 class _WidgetReceivingDataState extends State<WidgetReceivingData>  {
   final Client apiClient = Client();
   Future<Either<ServerError, Data>> _load;
-  ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -99,7 +98,6 @@ class ServerErrorWidget extends StatelessWidget {
        ]
     );
   }
-
 
 }
 
