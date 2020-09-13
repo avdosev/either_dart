@@ -24,10 +24,14 @@ abstract class Either<L, R> {
       throw Exception('Illegal use. You should check isRight() before calling');
   }
 
+  /// Transform values of [Left] or [Right]  
   Either<TL, TR> either<TL, TR>(TL Function(L) fnL, TR Function(R) fnR);
+  /// Transform value of [Right] when transformation may be finished with an error  
   Either<L, TR> then<TR>(Either<L, TR> Function(R) fnR);
+  /// Transform value of [Right]
   Either<L, TR> map<TR>(TR Function(R) fnR);
-  T unit<T>(T Function(L) fnL, T Function(R) fnR);
+  /// Unite [Left] and [Right] into the value of one type
+  T unite<T>(T Function(L) fnL, T Function(R) fnR);
 }
 
 class Left<L, R> extends Either<L, R> {
@@ -50,7 +54,7 @@ class Left<L, R> extends Either<L, R> {
   }
 
   @override
-  T unit<T>(T Function(L) fnL, T Function(R) fnR) {
+  T unite<T>(T Function(L) fnL, T Function(R) fnR) {
     return fnL(value);
   }
 
@@ -76,7 +80,7 @@ class Right<L, R> extends Either<L, R> {
   }
 
   @override
-  T unit<T>(T Function(L) fnL, T Function(R) fnR) {
+  T unite<T>(T Function(L) fnL, T Function(R) fnR) {
     return fnR(value);
   }
 
