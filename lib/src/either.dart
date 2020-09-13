@@ -1,8 +1,8 @@
-/// Represents a value of one of two possible types (a disjoint union).
+/// Represents a value of one of two possible types.
 /// Instances of [Either] are either an instance of [Left] or [Right].
-/// FP Convention dictates that:
-///   [Left] is used for "failure".
-///   [Right] is used for "success".
+/// 
+/// [Left] is used for "failure".
+/// [Right] is used for "success".
 abstract class Either<L, R> {
   /// Represents the left side of [Either] class which by convention is a "Failure".
   bool get isLeft => this is Left<L, R>;
@@ -10,19 +10,15 @@ abstract class Either<L, R> {
   /// Represents the right side of [Either] class which by convention is a "Success"
   bool get isRight => this is Right<L, R>;
 
-  L get left {
-    if (this is Left<L, R>)
-      return (this as Left<L, R>).value;
-    else
-      throw Exception('Illegal use. You should check isLeft() before calling ');
-  }
+  L get left => this.unite<L>(
+    (value) => value, 
+    (right) => throw Exception('Illegal use. You should check isLeft() before calling')
+  );
 
-  R get right {
-    if (this is Right<L, R>)
-      return (this as Right<L, R>).value;
-    else
-      throw Exception('Illegal use. You should check isRight() before calling');
-  }
+  R get right => this.unite<R>(
+    (left) => throw Exception('Illegal use. You should check isRight() before calling'),
+    (value) => value
+  );
 
   /// Transform values of [Left] or [Right]  
   Either<TL, TR> either<TL, TR>(TL Function(L) fnL, TR Function(R) fnR);
