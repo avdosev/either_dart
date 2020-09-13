@@ -1,6 +1,6 @@
 name: either
 description: Error handler library. Support functional type Either.
-version: 0.0.1
+version: 0.1.0
 homepage: https://github.com/avdosev
 repository: https://github.com/avdosev/either_dart
 
