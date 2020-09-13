@@ -1,4 +1,4 @@
-name: either
+name: either_dart
 description: Error handler library. Support functional type Either.
 version: 0.0.1
 homepage: https://github.com/avdosev

@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'package:either/either.dart';
+import 'package:either_dart/either.dart';
 
 void main() {
   test('right generic is right', () {

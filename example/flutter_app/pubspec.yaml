@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   
-  either:
+  either_dart:
     path: ../../
   cupertino_icons: ^0.1.3
 

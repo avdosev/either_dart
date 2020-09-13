@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:either/either.dart';
+import 'package:either_dart/either.dart';
 
 class Data {
   final String data;
