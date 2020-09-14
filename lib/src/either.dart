@@ -1,6 +1,6 @@
 /// Represents a value of one of two possible types.
 /// Instances of [Either] are either an instance of [Left] or [Right].
-/// 
+///
 /// [Left] is used for "failure".
 /// [Right] is used for "success".
 abstract class Either<L, R> {
@@ -11,25 +11,29 @@ abstract class Either<L, R> {
   bool get isRight => this is Right<L, R>;
 
   L get left => this.unite<L>(
-    (value) => value, 
-    (right) => throw Exception('Illegal use. You should check isLeft() before calling')
-  );
+      (value) => value,
+      (right) => throw Exception(
+          'Illegal use. You should check isLeft() before calling'));
 
   R get right => this.unite<R>(
-    (left) => throw Exception('Illegal use. You should check isRight() before calling'),
-    (value) => value
-  );
+      (left) => throw Exception(
+          'Illegal use. You should check isRight() before calling'),
+      (value) => value);
 
-  /// Transform values of [Left] or [Right]  
+  /// Transform values of [Left] or [Right]
   Either<TL, TR> either<TL, TR>(TL Function(L) fnL, TR Function(R) fnR);
-  /// Transform value of [Right] when transformation may be finished with an error  
+
+  /// Transform value of [Right] when transformation may be finished with an error
   Either<L, TR> then<TR>(Either<L, TR> Function(R) fnR);
+
   /// Transform value of [Right]
   Either<L, TR> map<TR>(TR Function(R) fnR);
+
   /// Unite [Left] and [Right] into the value of one type
   T unite<T>(T Function(L) fnL, T Function(R) fnR);
 }
 
+/// Used for "failure"
 class Left<L, R> extends Either<L, R> {
   final L value;
   Left(this.value);
@@ -53,9 +57,9 @@ class Left<L, R> extends Either<L, R> {
   T unite<T>(T Function(L) fnL, T Function(R) fnR) {
     return fnL(value);
   }
-
 }
 
+/// Used for "success"
 class Right<L, R> extends Either<L, R> {
   final R value;
   Right(this.value);
@@ -79,5 +83,4 @@ class Right<L, R> extends Either<L, R> {
   T unite<T>(T Function(L) fnL, T Function(R) fnR) {
     return fnR(value);
   }
-
 }
