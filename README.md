@@ -11,6 +11,10 @@ dependencies:
   either: ... // latest package version
 ```
 
+## Pub dev
+
+https://pub.dev/packages/either_dart
+
 ## Getting Started
 
 This project is a starting point for a Dart
