@@ -7,12 +7,16 @@ void main() {
     final maybe = Right<String, bool>(true);
     expect(maybe.isRight, true);
     expect(maybe.isLeft, false);
+    throwsA(() => maybe.left);
+    expect(maybe.right, true);
   });
 
   test('left generic is left', () {
     final maybe = Left<String, bool>("true");
     expect(maybe.isLeft, true);
     expect(maybe.isRight, false);
+    throwsA(() => maybe.right);
+    expect(maybe.left, "true");
   });
 
   test('map right', () {
@@ -51,7 +55,9 @@ void main() {
   });
 
   test('cond', () {
-    expect(Either.cond(true, "right", "left").isRight, true);
-    expect(Either.cond(false, "right", "left").isLeft, true);
+    expect(Either.cond(true,  "left", "right").isRight, true);
+    expect(Either.cond(false, "left", "right").isLeft, true);
+    expect(Either.condLazy(true,  () => throw Exception("not lazy"), () => "right").isRight, true);
+    expect(Either.condLazy(false, () => "left", () => throw Exception("not lazy")).isLeft, true);
   });
 }
