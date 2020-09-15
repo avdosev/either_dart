@@ -3,6 +3,7 @@
 Added:
 * Unit test
 * Lazy condition
+* Flutter example
 
 ## [0.0.2] - Additional functionality and testing
 
