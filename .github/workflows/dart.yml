@@ -1,0 +1,30 @@
+name: Dart CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image:  google/dart:latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: pub get
+    - name: Tests
+      run: pub run test
+    - name: Generate coverage report
+      run: |
+        pub run test_coverage
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage/lcov.info
+        fail_ci_if_error: true
