@@ -31,6 +31,19 @@ abstract class Either<L, R> {
 
   /// Unite [Left] and [Right] into the value of one type
   T unite<T>(T Function(L) fnL, T Function(R) fnR);
+
+  /// Constructs a new [Either] from a function that might throw
+  static Either<L, R> tryCatch<L, R, Err>(L Function(Err) fnL, R Function() fnR) {
+    try {
+      return Right(fnR());
+    } on Err catch (e) {
+      return Left(fnL(e));
+    }
+  }
+
+  /// If the condition is satify then return [rightValue] in [Right] else [leftValue] in [Left]
+  static Either<L, R> cond<L, R>(bool test, R rightValue, L leftValue) =>
+      test ? Right(rightValue) : Left(leftValue);
 }
 
 /// Used for "failure"
