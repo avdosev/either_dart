@@ -7,7 +7,7 @@ void main() {
     final maybe = Right<String, bool>(true);
     expect(maybe.isRight, true);
     expect(maybe.isLeft, false);
-    throwsA(() => maybe.left);
+    expect(() => maybe.left, throwsA(isException));
     expect(maybe.right, true);
   });
 
@@ -15,7 +15,7 @@ void main() {
     final maybe = Left<String, bool>("true");
     expect(maybe.isLeft, true);
     expect(maybe.isRight, false);
-    throwsA(() => maybe.right);
+    expect(() => maybe.right, throwsA(isException));
     expect(maybe.left, "true");
   });
 
