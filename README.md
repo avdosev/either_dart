@@ -1,7 +1,5 @@
-# either dart
+# either dart &middot; [![codecov.io](https://codecov.io/github/avdosev/either_dart/coverage.svg?branch=master)](https://codecov.io/github/avdosev/either_dart?branch=master) &middot; ![build status](https://github.com/avdosev/either_dart/workflows/unittests/badge.svg)
 
-[![codecov.io](https://codecov.io/github/avdosev/either_dart/coverage.svg?branch=master)](https://codecov.io/github/avdosev/either_dart?branch=master)
-![build status](https://github.com/avdosev/either_dart/workflows/unittests/badge.svg)
 
 The library for error handling and railway oriented programming.
 
