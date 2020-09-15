@@ -1,3 +1,9 @@
+## [0.0.3] - Additional functionality and testing
+
+Added:
+* Unit test
+* Lazy condition
+
 ## [0.0.2] - Additional functionality and testing
 
 Added:
