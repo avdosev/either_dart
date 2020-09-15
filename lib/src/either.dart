@@ -35,7 +35,8 @@ abstract class Either<L, R> {
   T unite<T>(T Function(L) fnL, T Function(R) fnR);
 
   /// Constructs a new [Either] from a function that might throw
-  static Either<L, R> tryCatch<L, R, Err>(L Function(Err) fnL, R Function() fnR) {
+  static Either<L, R> tryCatch<L, R, Err>(
+      L Function(Err) fnL, R Function() fnR) {
     try {
       return Right(fnR());
     } on Err catch (e) {
@@ -46,9 +47,10 @@ abstract class Either<L, R> {
   /// If the condition is satify then return [rightValue] in [Right] else [leftValue] in [Left]
   static Either<L, R> cond<L, R>(bool test, L leftValue, R rightValue) =>
       test ? Right(rightValue) : Left(leftValue);
-  
+
   /// If the condition is satify then return [rightValue] in [Right] else [leftValue] in [Left]
-  static Either<L, R> condLazy<L, R>(bool test, Lazy<L> leftValue, Lazy<R> rightValue) =>
+  static Either<L, R> condLazy<L, R>(
+          bool test, Lazy<L> leftValue, Lazy<R> rightValue) =>
       test ? Right(rightValue()) : Left(leftValue());
 }
 
