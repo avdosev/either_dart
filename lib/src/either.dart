@@ -23,24 +23,25 @@ abstract class Either<L, R> {
       (value) => value);
 
   /// Transform values of [Left] or [Right]
-  Either<TL, TR> either<TL, TR>(TL Function(L) fnL, TR Function(R) fnR);
+  Either<TL, TR> either<TL, TR>(
+      TL Function(L left) fnL, TR Function(R right) fnR);
 
   /// Transform value of [Right] when transformation may be finished with an error
-  Either<L, TR> then<TR>(Either<L, TR> Function(R) fnR);
+  Either<L, TR> then<TR>(Either<L, TR> Function(R right) fnR);
 
   /// Transform value of [Right]
-  Either<L, TR> map<TR>(TR Function(R) fnR);
+  Either<L, TR> map<TR>(TR Function(R right) fnR);
 
   /// Unite [Left] and [Right] into the value of one type
-  T unite<T>(T Function(L) fnL, T Function(R) fnR);
+  T unite<T>(T Function(L left) fnL, T Function(R right) fnR);
 
   /// Constructs a new [Either] from a function that might throw
   static Either<L, R> tryCatch<L, R, Err>(
-      L Function(Err) fnL, R Function() fnR) {
+      L Function(Err err) onError, R Function() fnR) {
     try {
       return Right(fnR());
     } on Err catch (e) {
-      return Left(fnL(e));
+      return Left(onError(e));
     }
   }
 
@@ -60,22 +61,23 @@ class Left<L, R> extends Either<L, R> {
   Left(this.value);
 
   @override
-  Either<TL, TR> either<TL, TR>(TL Function(L) fnL, TR Function(R) fnR) {
+  Either<TL, TR> either<TL, TR>(
+      TL Function(L left) fnL, TR Function(R right) fnR) {
     return Left<TL, TR>(fnL(value));
   }
 
   @override
-  Either<L, TR> then<TR>(Either<L, TR> Function(R) fnR) {
+  Either<L, TR> then<TR>(Either<L, TR> Function(R right) fnR) {
     return Left<L, TR>(value);
   }
 
   @override
-  Either<L, TR> map<TR>(TR Function(R) fnR) {
+  Either<L, TR> map<TR>(TR Function(R right) fnR) {
     return Left<L, TR>(value);
   }
 
   @override
-  T unite<T>(T Function(L) fnL, T Function(R) fnR) {
+  T unite<T>(T Function(L left) fnL, T Function(R right) fnR) {
     return fnL(value);
   }
 }
@@ -86,22 +88,23 @@ class Right<L, R> extends Either<L, R> {
   Right(this.value);
 
   @override
-  Either<TL, TR> either<TL, TR>(TL Function(L) fnL, TR Function(R) fnR) {
+  Either<TL, TR> either<TL, TR>(
+      TL Function(L left) fnL, TR Function(R right) fnR) {
     return Right<TL, TR>(fnR(value));
   }
 
   @override
-  Either<L, TR> then<TR>(Either<L, TR> Function(R) fnR) {
+  Either<L, TR> then<TR>(Either<L, TR> Function(R right) fnR) {
     return fnR(value);
   }
 
   @override
-  Either<L, TR> map<TR>(TR Function(R) fnR) {
+  Either<L, TR> map<TR>(TR Function(R right) fnR) {
     return Right<L, TR>(fnR(value));
   }
 
   @override
-  T unite<T>(T Function(L) fnL, T Function(R) fnR) {
+  T unite<T>(T Function(L left) fnL, T Function(R right) fnR) {
     return fnR(value);
   }
 }
