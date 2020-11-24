@@ -1,3 +1,8 @@
+## [0.0.4] - Bug fixs
+
+Fixed:
+* Not convenient use with autocomplete
+
 ## [0.0.3] - Additional functionality and testing
 
 Added:
