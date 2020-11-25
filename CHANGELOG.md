@@ -1,3 +1,9 @@
+## [0.0.5] - Additional functionality
+
+Added:
+* asyncMap
+* asyncThen
+
 ## [0.0.4] - Bug fixs
 
 Fixed:
