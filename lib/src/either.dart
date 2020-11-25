@@ -29,8 +29,15 @@ abstract class Either<L, R> {
   /// Transform value of [Right] when transformation may be finished with an error
   Either<L, TR> then<TR>(Either<L, TR> Function(R right) fnR);
 
+  /// Transform value of [Right] when transformation may be finished with an error
+  Future<Either<L, TR>> asyncThen<TR>(
+      Future<Either<L, TR>> Function(R right) fnR);
+
   /// Transform value of [Right]
   Either<L, TR> map<TR>(TR Function(R right) fnR);
+
+  /// Transform value of [Right]
+  Future<Either<L, TR>> asyncMap<TR>(Future<TR> Function(R right) fnR);
 
   /// Unite [Left] and [Right] into the value of one type
   T unite<T>(T Function(L left) fnL, T Function(R right) fnR);
@@ -72,8 +79,19 @@ class Left<L, R> extends Either<L, R> {
   }
 
   @override
+  Future<Either<L, TR>> asyncThen<TR>(
+      Future<Either<L, TR>> Function(R right) fnR) {
+    return Future.value(Left<L, TR>(value));
+  }
+
+  @override
   Either<L, TR> map<TR>(TR Function(R right) fnR) {
     return Left<L, TR>(value);
+  }
+
+  @override
+  Future<Either<L, TR>> asyncMap<TR>(Future<TR> Function(R right) fnR) {
+    return Future.value(Left<L, TR>(value));
   }
 
   @override
@@ -98,9 +116,18 @@ class Right<L, R> extends Either<L, R> {
     return fnR(value);
   }
 
+  Future<Either<L, TR>> asyncThen<TR>(
+      Future<Either<L, TR>> Function(R right) fnR) {
+    return fnR(value);
+  }
+
   @override
   Either<L, TR> map<TR>(TR Function(R right) fnR) {
     return Right<L, TR>(fnR(value));
+  }
+
+  Future<Either<L, TR>> asyncMap<TR>(Future<TR> Function(R right) fnR) {
+    return fnR(value).then((value) => Right<L, TR>(value));
   }
 
   @override
