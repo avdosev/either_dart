@@ -3,6 +3,8 @@
 
 The library for error handling and railway oriented programming.
 
+This library supports async "map" and async "then" hiding the boilerplate of working with asynchronous computations Future\[Either\].
+
 ## Installation
 
 Add on pubspec.yml:
