@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:either_dart/either.dart';
+import 'package:flutter/material.dart';
 
 class Data {
   final String data;
@@ -23,7 +23,6 @@ class Client {
       return Left(ServerError("loss connection"));
     }
   }
-
 }
 
 class WidgetReceivingData extends StatefulWidget {
@@ -31,7 +30,7 @@ class WidgetReceivingData extends StatefulWidget {
   createState() => _WidgetReceivingDataState();
 }
 
-class _WidgetReceivingDataState extends State<WidgetReceivingData>  {
+class _WidgetReceivingDataState extends State<WidgetReceivingData> {
   final Client apiClient = Client();
   Future<Either<ServerError, Data>> _load;
 
@@ -50,21 +49,19 @@ class _WidgetReceivingDataState extends State<WidgetReceivingData>  {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<Either<ServerError, Data>>(
-        future: _load,
-        builder: (context, snapshot) {
-          return Center(
-            // Error in future not handling
-            child: snapshot.hasData && snapshot.connectionState != ConnectionState.waiting ?
-              snapshot.data.unite<Widget>(
-                (err) => ServerErrorWidget(err, onReload: reloadServerData),
-                (data) => DataWidget(data)
-              ) :
-              CircularProgressIndicator()
-          );
-        }
-      )
-    );
+        body: FutureBuilder<Either<ServerError, Data>>(
+            future: _load,
+            builder: (context, snapshot) {
+              return Center(
+                  // Error in future not handling
+                  child: snapshot.hasData &&
+                          snapshot.connectionState != ConnectionState.waiting
+                      ? snapshot.data.unite<Widget>(
+                          (err) => ServerErrorWidget(err,
+                              onReload: reloadServerData),
+                          (data) => DataWidget(data))
+                      : CircularProgressIndicator());
+            }));
   }
 }
 
@@ -76,7 +73,6 @@ class DataWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text("Data: ${_data.data}");
   }
-
 }
 
 class ServerErrorWidget extends StatelessWidget {
@@ -86,26 +82,20 @@ class ServerErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-       children: [
-         Text("Error: ${_error.message}"),
-         SizedBox(height: 20),
-         FlatButton(
-           onPressed: onReload,
-           child: Text("Try reload"),
-         )
-       ]
-    );
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Text("Error: ${_error.message}"),
+      SizedBox(height: 20),
+      FlatButton(
+        onPressed: onReload,
+        child: Text("Try reload"),
+      )
+    ]);
   }
-
 }
 
-main() => runApp(
-    MaterialApp(
+main() => runApp(MaterialApp(
       home: WidgetReceivingData(),
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-    )
-);
+    ));
