@@ -12,12 +12,12 @@ abstract class Either<L, R> {
   /// Represents the right side of [Either] class which by convention is a "Success"
   bool get isRight => this is Right<L, R>;
 
-  L get left => this.unite<L>(
+  L get left => this.fold<L>(
       (value) => value,
       (right) => throw Exception(
           'Illegal use. You should check isLeft() before calling'));
 
-  R get right => this.unite<R>(
+  R get right => this.fold<R>(
       (left) => throw Exception(
           'Illegal use. You should check isRight() before calling'),
       (value) => value);
@@ -39,8 +39,8 @@ abstract class Either<L, R> {
   /// Transform value of [Right]
   Future<Either<L, TR>> asyncMap<TR>(Future<TR> Function(R right) fnR);
 
-  /// Unite [Left] and [Right] into the value of one type
-  T unite<T>(T Function(L left) fnL, T Function(R right) fnR);
+  /// Fold [Left] and [Right] into the value of one type
+  T fold<T>(T Function(L left) fnL, T Function(R right) fnR);
 
   /// Constructs a new [Either] from a function that might throw
   static Either<L, R> tryCatch<L, R, Err>(
@@ -95,7 +95,7 @@ class Left<L, R> extends Either<L, R> {
   }
 
   @override
-  T unite<T>(T Function(L left) fnL, T Function(R right) fnR) {
+  T fold<T>(T Function(L left) fnL, T Function(R right) fnR) {
     return fnL(value);
   }
 }
@@ -131,7 +131,7 @@ class Right<L, R> extends Either<L, R> {
   }
 
   @override
-  T unite<T>(T Function(L left) fnL, T Function(R right) fnR) {
+  T fold<T>(T Function(L left) fnL, T Function(R right) fnR) {
     return fnR(value);
   }
 }
