@@ -46,6 +46,9 @@ abstract class Either<L, R> {
   /// Fold [Left] and [Right] into the value of one type
   T fold<T>(T Function(L left) fnL, T Function(R right) fnR);
 
+  /// Swap [Left] and [Right]
+  Either<R, L> swap() => fold((left) => Right(left), (right) => Left(right));
+
   /// Constructs a new [Either] from a function that might throw
   static Either<L, R> tryCatch<L, R, Err>(
       L Function(Err err) onError, R Function() fnR) {

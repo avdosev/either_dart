@@ -61,4 +61,18 @@ void main() {
             .isLeft,
         true);
   });
+
+  test('swap', () {
+    final maybe = Right<String, bool>(true).swap();
+    expect(maybe.isRight, false);
+    expect(maybe.isLeft, true);
+
+    final maybe2 = Left<bool, String>(true).swap();
+    expect(maybe2.isRight, true);
+    expect(maybe2.isLeft, false);
+
+    final maybe3 = maybe.swap();
+    expect(maybe3.isRight, true);
+    expect(maybe3.isLeft, false);
+  });
 }
