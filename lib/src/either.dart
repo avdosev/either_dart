@@ -6,17 +6,21 @@ typedef Lazy<T> = T Function();
 /// [Left] is used for "failure".
 /// [Right] is used for "success".
 abstract class Either<L, R> {
+  const Either();
+
   /// Represents the left side of [Either] class which by convention is a "Failure".
   bool get isLeft => this is Left<L, R>;
 
   /// Represents the right side of [Either] class which by convention is a "Success"
   bool get isRight => this is Right<L, R>;
 
+  /// Get [Left] value, may throw an exception when the value is [Right]
   L get left => this.fold<L>(
       (value) => value,
       (right) => throw Exception(
           'Illegal use. You should check isLeft() before calling'));
 
+  /// Get [Right] value, may throw an exception when the value is [Left]
   R get right => this.fold<R>(
       (left) => throw Exception(
           'Illegal use. You should check isRight() before calling'),
@@ -65,7 +69,8 @@ abstract class Either<L, R> {
 /// Used for "failure"
 class Left<L, R> extends Either<L, R> {
   final L value;
-  Left(this.value);
+
+  const Left(this.value);
 
   @override
   Either<TL, TR> either<TL, TR>(
@@ -103,7 +108,8 @@ class Left<L, R> extends Either<L, R> {
 /// Used for "success"
 class Right<L, R> extends Either<L, R> {
   final R value;
-  Right(this.value);
+
+  const Right(this.value);
 
   @override
   Either<TL, TR> either<TL, TR>(
@@ -116,6 +122,7 @@ class Right<L, R> extends Either<L, R> {
     return fnR(value);
   }
 
+  @override
   Future<Either<L, TR>> asyncThen<TR>(
       Future<Either<L, TR>> Function(R right) fnR) {
     return fnR(value);
@@ -126,6 +133,7 @@ class Right<L, R> extends Either<L, R> {
     return Right<L, TR>(fnR(value));
   }
 
+  @override
   Future<Either<L, TR>> asyncMap<TR>(Future<TR> Function(R right) fnR) {
     return fnR(value).then((value) => Right<L, TR>(value));
   }
