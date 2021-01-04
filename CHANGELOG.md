@@ -1,3 +1,13 @@
+## [0.1.0] - Additional functionality
+
+Added:
+* null-safety
+* swap method
+* const constructor for Left and Right
+
+Changed:
+* rename unite to fold
+
 ## [0.0.5] - Additional functionality
 
 Added:
