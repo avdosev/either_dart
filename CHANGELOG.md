@@ -1,3 +1,11 @@
+## [0.1.0-nullsafety.1] - Additional functionality
+
+Added:
+* mapLeft
+
+Fixed:
+* documentation
+
 ## [0.1.0-nullsafety.0] - Additional functionality
 
 Added:
