@@ -26,7 +26,7 @@ abstract class Either<L, R> {
           'Illegal use. You should check isRight() before calling'),
       (value) => value);
 
-  /// Transform values of [Left] or [Right]
+  /// Transform values of [Left] and [Right]
   Either<TL, TR> either<TL, TR>(
       TL Function(L left) fnL, TR Function(R right) fnR);
 
