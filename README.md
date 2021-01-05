@@ -14,6 +14,10 @@ dependencies:
   either: ... // latest package version
 ```
 
+## Documentation
+
+https://pub.dev/documentation/either_dart/latest/either/either-library.html
+
 ## Pub dev
 
 https://pub.dev/packages/either_dart
