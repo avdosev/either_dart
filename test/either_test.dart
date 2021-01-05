@@ -40,6 +40,22 @@ void main() {
     ;
   });
 
+  test('mapLeft right', () {
+    final maybe = Right<String, bool>(true);
+
+    maybe
+        .mapLeft((left) => false)
+        .either((left) => expect(false, true), (right) => expect(right, true));
+  });
+
+  test('mapLeft left', () {
+    final maybe = Left<bool, String>(true);
+
+    maybe
+        .mapLeft((left) => false)
+        .either((left) => expect(left, false), (right) => expect(true, false));
+  });
+
   test('fold', () {
     expect(
         Left<String, String>("").fold<bool>((left) => true, (right) => false),

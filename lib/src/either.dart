@@ -40,6 +40,9 @@ abstract class Either<L, R> {
   /// Transform value of [Right]
   Either<L, TR> map<TR>(TR Function(R right) fnR);
 
+  /// Transform value of [Left]
+  Either<TL, R> mapLeft<TL>(TL Function(L left) fnL);
+
   /// Transform value of [Right]
   Future<Either<L, TR>> asyncMap<TR>(Future<TR> Function(R right) fnR);
 
@@ -98,6 +101,11 @@ class Left<L, R> extends Either<L, R> {
   }
 
   @override
+  Either<TL, R> mapLeft<TL>(TL Function(L left) fnL) {
+    return Left<TL, R>(fnL(value));
+  }
+
+  @override
   Future<Either<L, TR>> asyncMap<TR>(Future<TR> Function(R right) fnR) {
     return Future.value(Left<L, TR>(value));
   }
@@ -134,6 +142,11 @@ class Right<L, R> extends Either<L, R> {
   @override
   Either<L, TR> map<TR>(TR Function(R right) fnR) {
     return Right<L, TR>(fnR(value));
+  }
+
+  @override
+  Either<TL, R> mapLeft<TL>(TL Function(L left) fnL) {
+    return Right<TL, R>(value);
   }
 
   @override
