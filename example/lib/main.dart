@@ -32,7 +32,7 @@ class WidgetReceivingData extends StatefulWidget {
 
 class _WidgetReceivingDataState extends State<WidgetReceivingData> {
   final Client apiClient = Client();
-  Future<Either<ServerError, Data>> _load;
+  Future<Either<ServerError, Data>>? _load;
 
   @override
   void initState() {
@@ -56,7 +56,7 @@ class _WidgetReceivingDataState extends State<WidgetReceivingData> {
                   // Error in future not handling
                   child: snapshot.hasData &&
                           snapshot.connectionState != ConnectionState.waiting
-                      ? snapshot.data.unite<Widget>(
+                      ? snapshot.data!.fold<Widget>(
                           (err) => ServerErrorWidget(err,
                               onReload: reloadServerData),
                           (data) => DataWidget(data))
@@ -78,7 +78,7 @@ class DataWidget extends StatelessWidget {
 class ServerErrorWidget extends StatelessWidget {
   final ServerError _error;
   final VoidCallback onReload;
-  const ServerErrorWidget(this._error, {this.onReload});
+  const ServerErrorWidget(this._error, {required this.onReload});
 
   @override
   Widget build(BuildContext context) {
