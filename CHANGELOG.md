@@ -1,3 +1,16 @@
+## [0.1.0-nullsafety.2] - Additional functionality and fixes
+
+Added:
+* mapLeftAsync
+* `FutureEither<L, R>` extension
+
+Fixed:
+* change the naming of the async methods of `Either` class
+
+Changes `Either`:
+* asyncThen -> thenAsync
+* asyncMap -> mapAsync
+
 ## [0.1.0-nullsafety.1] - Additional functionality
 
 Added:

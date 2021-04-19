@@ -47,7 +47,7 @@ abstract class Either<L, R> {
   Future<Either<L, TR>> mapAsync<TR>(Future<TR> Function(R right) fnR);
 
   /// Transform value of [Left]
-  Future<Either<TL, R>> mapLeftAsync<TL>(Future<TL> Function(L right) fnR);
+  Future<Either<TL, R>> mapLeftAsync<TL>(Future<TL> Function(L left) fnL);
 
   /// Fold [Left] and [Right] into the value of one type
   T fold<T>(T Function(L left) fnL, T Function(R right) fnR);
@@ -161,7 +161,7 @@ class Right<L, R> extends Either<L, R> {
   Future<Either<L, TR>> mapAsync<TR>(Future<TR> Function(R right) fnR) {
     return fnR(value).then((value) => Right<L, TR>(value));
   }
-  
+
   @override
   Future<Either<TL, R>> mapLeftAsync<TL>(Future<TL> Function(L left) fnL) {
     return Future.value(Right<TL, R>(value));
