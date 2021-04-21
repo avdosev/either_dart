@@ -11,7 +11,7 @@ Add on pubspec.yml:
 
 ```
 dependencies:
-  either: ... // latest package version
+  either_dart: ... // latest package version
 ```
 
 ## Documentation
