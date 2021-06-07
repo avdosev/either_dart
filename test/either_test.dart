@@ -91,4 +91,15 @@ void main() {
     expect(maybe3.isRight, true);
     expect(maybe3.isLeft, false);
   });
+
+  test('tryCatch', () {
+    expect(
+        Either.tryCatch<bool, String, Exception>(
+            (err) => true, () => throw Exception("not right")).isLeft,
+        true);
+    expect(
+        Either.tryCatch<bool, String, Exception>((err) => false, () => "right")
+            .isRight,
+        true);
+  });
 }
