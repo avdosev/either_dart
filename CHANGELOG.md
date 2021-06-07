@@ -1,3 +1,9 @@
+## [0.1.2] - Fixs
+
+Fixed: 
+* remove the lint warning from Either.tryCatch
+
+
 ## [0.1.0-nullsafety.2] - Additional functionality and fixes
 
 Added:
