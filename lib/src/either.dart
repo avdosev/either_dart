@@ -56,7 +56,7 @@ abstract class Either<L, R> {
   Either<R, L> swap() => fold((left) => Right(left), (right) => Left(right));
 
   /// Constructs a new [Either] from a function that might throw
-  static Either<L, R> tryCatch<L, R, Err>(
+  static Either<L, R> tryCatch<L, R, Err extends Object>(
       L Function(Err err) onError, R Function() fnR) {
     try {
       return Right(fnR());
