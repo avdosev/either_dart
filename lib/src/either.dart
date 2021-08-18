@@ -18,12 +18,12 @@ abstract class Either<L, R> {
   L get left => this.fold<L>(
       (value) => value,
       (right) => throw Exception(
-          'Illegal use. You should check isLeft() before calling'));
+          'Illegal use. You should check isLeft before calling'));
 
   /// Get [Right] value, may throw an exception when the value is [Left]
   R get right => this.fold<R>(
       (left) => throw Exception(
-          'Illegal use. You should check isRight() before calling'),
+          'Illegal use. You should check isRight before calling'),
       (value) => value);
 
   /// Transform values of [Left] and [Right]
@@ -36,6 +36,13 @@ abstract class Either<L, R> {
   /// Transform value of [Right] when transformation may be finished with an error
   Future<Either<L, TR>> thenAsync<TR>(
       Future<Either<L, TR>> Function(R right) fnR);
+
+  /// Transform value of [Left] when transformation may be finished with an [Right]
+  Either<TL, R> thenLeft<TL>(Either<TL, R> Function(L left) fnL);
+
+  /// Transform value of [Left] when transformation may be finished with an [Right]
+  Future<Either<TL, R>> thenLeftAsync<TL>(
+      Future<Either<TL, R>> Function(L left) fnL);
 
   /// Transform value of [Right]
   Either<L, TR> map<TR>(TR Function(R right) fnR);
@@ -99,6 +106,17 @@ class Left<L, R> extends Either<L, R> {
   }
 
   @override
+  Either<TL, R> thenLeft<TL>(Either<TL, R> Function(L left) fnL) {
+    return fnL(value);
+  }
+
+  @override
+  Future<Either<TL, R>> thenLeftAsync<TL>(
+      Future<Either<TL, R>> Function(L left) fnL) {
+    return fnL(value);
+  }
+
+  @override
   Either<L, TR> map<TR>(TR Function(R right) fnR) {
     return Left<L, TR>(value);
   }
@@ -145,6 +163,17 @@ class Right<L, R> extends Either<L, R> {
   Future<Either<L, TR>> thenAsync<TR>(
       Future<Either<L, TR>> Function(R right) fnR) {
     return fnR(value);
+  }
+
+  @override
+  Either<TL, R> thenLeft<TL>(Either<TL, R> Function(L left) fnL) {
+    return Right<TL, R>(value);
+  }
+
+  @override
+  Future<Either<TL, R>> thenLeftAsync<TL>(
+      Future<Either<TL, R>> Function(L left) fnL) {
+    return Future.value(Right<TL, R>(value));
   }
 
   @override
