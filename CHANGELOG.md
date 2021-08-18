@@ -1,3 +1,10 @@
+## [0.1.3] - Additional functionality
+
+Added:
+* thenLeft
+* thenLeftAsync
+* similiar methods for `FutureEither<L, R>` extension
+
 ## [0.1.2] - Fixs
 
 Fixed: 
