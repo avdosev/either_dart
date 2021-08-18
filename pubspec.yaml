@@ -10,5 +10,4 @@ environment:
 dependencies:
 
 dev_dependencies:
-  test_coverage: ^0.5.0
-  test: ^1.16.0-nullsafety.13
+  test: ^1.17.11

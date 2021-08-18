@@ -17,14 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: pub get
+      run: dart pub get
     - name: Tests
-      run: pub run test
-    - name: Generate coverage report
-      run: |
-        pub run test_coverage
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        file: ./coverage/lcov.info
-        fail_ci_if_error: false
+      run: dart test
