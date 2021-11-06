@@ -78,6 +78,10 @@ Further, there will be intermediate transformations.
 Either has the following methods:
 | name | result | description |
 | --- | --- | --- |
+| `isLeft` | `bool` | Represents the left side of Either class which by convention is a "Failure". |
+| `isRight` | `bool` | Represents the right side of Either class which by convention is a "Success" |
+| `left` | `L` | Get Left value, may throw an exception when the value is Right. **read-only** |
+| `right` | `R` | Get Right value, may throw an exception when the value is Left. **read-only** |
 | `either<TL, TR>(TL fnL(L left), TR fnR(R right))` | `Either<TL, TR>` | Transform values of Left and Right
 | `fold<T>(T fnL(L left), T fnR(R right))` | `T` | Fold Left and Right into the value of one type
 | `map<TR>(TR fnR(R right))` | `Either<L, TR>` | Transform value of Right
@@ -90,3 +94,31 @@ Either has the following methods:
 | `thenLeft<TL>(Either<TL, R> fnL(L left))` | `Either<TL, R>` | Transform value of Left when transformation may be finished with an Right
 | `thenLeftAsync<TL>(Future<Either<TL, R>> fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left when transformation may be finished with an Right
 
+### Case - Solution
+
+* How i can use value of `Either`?
+
+You can use right or left getters, but you should check what value is stored inside (`isLeft` or `isRight`)
+
+Also, my favorite methods `fold`, `either`
+
+* `fold` - used when you need transform two rails to one type
+* `either` - used for two situation: 1. when you need transform left and right. 2. when you need use stored value with out next usage (see example). 
+
+Example: 
+```dart
+showNotification(Either<MyError, String> value) {
+  return value.either(
+    (left) => showWarning(left.message ?? left.key.toString()),
+    (right) => showInfo(right.toString()),
+  );
+  /// equal
+  if (value.isLeft) {
+    final left = value.left;
+    showWarning(left.message ?? left.key.toString()
+  } else {
+    final right = value.right;
+    showInfo(right.toString())
+  }
+}
+```
