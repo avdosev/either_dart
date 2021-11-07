@@ -7,7 +7,7 @@ This library supports async "map" and async "then" hiding the boilerplate of wor
 
 ## Installation
 
-Add on pubspec.yml:
+Add to pubspec.yml:
 
 ```
 dependencies:
@@ -26,6 +26,7 @@ https://pub.dev/packages/either_dart
 
 Sections:
 * [Basic usage](#basic-usage)
+* [Advanced usage](#advanced-usage)
 * [Case - Solution](#case---solution)
 
 ### Basic usage
@@ -49,7 +50,7 @@ class MyError {
 }
 ```
 
-Start use.
+We can use Either as shown below:
 
 ```dart
 Either<MyError, String> getCityNameByCode(int code) {
@@ -68,7 +69,7 @@ Either<MyError, String> getCityNameByCode(int code) {
 }
 ```
 
-Too, you can use `Either.cond` and `Either.condLazy` for simple cases. Like this:
+Too, you can use `Either.cond` and `Either.condLazy` for simple cases:
 
 ```dart
   return Either.condLazy(cities.contains(code), 
@@ -80,10 +81,9 @@ Too, you can use `Either.cond` and `Either.condLazy` for simple cases. Like this
   );
 ```
 
-Further, there will be intermediate transformations. 
 Either has the following methods:
 
-***disclaimer:*** \
+***note:*** \
 L - current `Left` type \
 TL - new generic `Left` type \
 R - current `Right` type \
@@ -110,9 +110,9 @@ TR - new generic `Right` type
 
 ### Advanced usage
 
-This library has provided an extension `FutureEither` which is designed to handle asynchronous computation with ease.
+This library provides an `FutureEither` extension which is designed to handle asynchronous computation with ease.
 
-You don\`t needed to import or use new classes to use it - just use `Future<Either<L, R>>`
+You don't need to import or use new classes to use it - just use `Future<Either<L, R>>`
 
 | name | result | description |
 | --- | --- | --- |
@@ -189,14 +189,14 @@ Future<Either<AppError, Data>> getDataFromServer() {
 
 ### Case - Solution
 
-* How i can use value of `Either`?
+* How I can use the value of `Either`?
 
 You can use right or left getters, but you should check what value is stored inside (`isLeft` or `isRight`)
 
 Also, my favorite methods `fold`, `either`
 
-* `fold` - used when you need transform two rails to one type
-* `either` - used for two situation: 1. when you need transform left and right. 2. when you need use stored value with out next usage (see example). 
+* `fold` - used when you need to transform two rails to one type
+* `either` - used for two situations: 1. when you need transform left and right. 2. when you need to use stored value without next usage (see example). 
 
 Example: 
 ```dart
@@ -211,8 +211,7 @@ showNotification(Either<MyError, String> value) {
     final left = value.left;
     showWarning(left.message ?? left.key.toString()
   } else {
-    final right = value.right;
-    showInfo(right.toString())
+    showInfo(value.right.toString())
   }
 }
 ```
