@@ -34,7 +34,8 @@ Create two entities for example, you can use your own abstractions for your proj
 
 ```dart
 enum AppError {
-  NotFound;
+  NotFound,
+  // some errors codes
 }
 
 class MyError {
@@ -95,7 +96,7 @@ TR - new generic `Right` type
 | `isRight` | `bool` | Represents the right side of Either class which by convention is a "Success" |
 | `left` | `L` | Get Left value, may throw an exception when the value is Right. **read-only** |
 | `right` | `R` | Get Right value, may throw an exception when the value is Left. **read-only** |
-| `either<TL, TR>(TL fnL(L left), TR fnR(R right))` | `Either<TL, TR>` | Transform values of Left and Right
+| `either<TL, TR>(TL fnL(L left), TR fnR(R right))` | `Either<TL, TR>` | Transform values of Left and Right, equal of `bimap` in fp-libraries
 | `fold<T>(T fnL(L left), T fnR(R right))` | `T` | Fold Left and Right into the value of one type
 | `map<TR>(TR fnR(R right))` | `Either<L, TR>` | Transform value of Right
 | `mapLeft<TL>(TL fnL(L left))` | `Either<TL, R>` | Transform value of Left
@@ -106,6 +107,85 @@ TR - new generic `Right` type
 | `thenLeft<TL>(Either<TL, R> fnL(L left))` | `Either<TL, R>` | Transform value of Left when transformation may be finished with an Right
 | `thenAsync<TR>(Future<Either<L, TR>> fnR(R right))` | `Future<Either<L, TR>>` | Transform value of Right when transformation may be finished with an error
 | `thenLeftAsync<TL>(Future<Either<TL, R>> fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left when transformation may be finished with an Right
+
+### Advanced usage
+
+This library has provided an extension `FutureEither` which is designed to handle asynchronous computation with ease.
+
+You don\`t needed to import or use new classes to use it - just use `Future<Either<L, R>>`
+
+| name | result | description |
+| --- | --- | --- |
+`either<TL, TR>(TL fnL(L left), TR fnR(R right))` | `Future<Either<TL, TR>>` | Transform values of Left and Right
+`fold<T>(T fnL(L left), T fnR(R right))` | `Future<T>` | Fold Left and Right into the value of one type
+`mapRight<TR>(TR fnR(R right))` | `Future<Either<L, TR>>` | Transform value of Right
+`mapRightAsync<TR>(Future<TR> fnR(R right))` | `Future<Either<L, TR>>` | Async transform value of Right
+`mapLeft<TL>(TL fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left
+`mapLeftAsync<TL>(Future<TL> fnL(L left))` | `Future<Either<TL, R>>` | Async transform value of Left
+`swap()` | `Future<Either<R, L>>` | Swap Left and Right
+`thenRight<TR>(Future<Either<L, TR>> fnR(R right))` | `Future<Either<L, TR>>` | Async transform value of Right when transformation may be finished with an error
+`thenRightSync<TR>(Either<L, TR> fnR(R right))` | `Future<Either<L, TR>>` | Transform value of Right when transformation may be finished with an error
+`thenLeft<TL>(Future<Either<TL, R>> fnL(L left))` | `Future<Either<TL, R>>` | Async transform value of Left when transformation may be finished with an Right
+`thenLeftSync<TL>(Either<TL, R> fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left when transformation may be finished with an Right
+
+Example:
+
+```dart
+/// --- helpers ---
+
+import 'package:either_dart/either.dart';
+import 'package:http/http.dart' as http;
+import 'packege:flutter/foundation.dart';
+import 'dart:convert';
+
+Future<Either<AppError, http.Response>> safe(Future<http.Response> request) async {
+  try {
+    return Right(await request);
+  } catch (e) {
+    return Left(MyError(
+        key: AppError.BadRequest,
+        message: "Request executing with errors:$e"));
+  }
+}
+
+Either<AppError, http.Response> checkHttpStatus(http.Response response) {
+  if (response.statusCode == 200)
+    return Right(response);
+  if (response.statusCode >= 500)
+    return Left(MyError(
+        key: AppError.ServerError,
+        message: "Server error with http status ${response.statusCode}"));
+  return Left(MyError(
+      key: AppError.BadResponse,
+      message: "Bad http status ${response.statusCode}"));
+}
+
+Future<Either<AppError, dynamic>> parseJson(http.Response response) async {
+  try {
+    
+    return Right(await compute((body) {
+      final json = JsonCodec();
+      return json.decode(body)); 
+    }, response.body);
+  } catch (e) {
+    return Left(MyError(
+      key: AppError.JsonParsing, 
+      message: 'failed on json parsing'));
+  }
+}
+
+/// --- app code ---
+
+//// network
+Future<Either<AppError, Data>> getDataFromServer() {
+  return 
+    safe(http.get(Uri('some uri')))
+      .thenRightSync(checkHttpStatus)
+      .thenRight(parseJson) 
+      .mapRight(Data.fromJson)
+}
+
+```
 
 ### Case - Solution
 
