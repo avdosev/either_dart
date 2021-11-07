@@ -1,3 +1,10 @@
+## [0.1.4] - Update docs
+
+Update: 
+* Readme
+
+(just this)
+
 ## [0.1.3] - Additional functionality
 
 Added:
