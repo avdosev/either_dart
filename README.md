@@ -76,6 +76,14 @@ Also, i can use `Either.cond` and `Either.condLazy` for simple cases. Like this:
 
 Further, there will be intermediate transformations. 
 Either has the following methods:
+
+***disclaimer:*** \
+L - current `Left` type \
+TL - new generic `Left` type \
+R - current `Right` type \
+TR - new generic `Right` type
+
+
 | name | result | description |
 | --- | --- | --- |
 | `isLeft` | `bool` | Represents the left side of Either class which by convention is a "Failure". |
