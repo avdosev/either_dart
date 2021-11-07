@@ -135,7 +135,8 @@ showNotification(Either<MyError, String> value) {
     showInfo(right.toString())
   }
 }
-
+```
+```dart
 /// fold method
 class MyWidget {
   final Either<MyError, List<String>> value;
