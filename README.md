@@ -149,6 +149,11 @@ class MyWidget {
         (left) => left.message, 
         (right) => right.join(', ')),
     );
+    /// or
+    return value.fold(
+      (left) => _buildSomeErrorWidget(context, left),
+      (right) => _buildSomeRightWidget(context, right),
+    );
   }
 }
 ```
