@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import './either.dart';
 
 extension FutureEither<L, R> on Future<Either<L, R>> {
@@ -13,38 +15,42 @@ extension FutureEither<L, R> on Future<Either<L, R>> {
       this.then((either) => either.either(fnL, fnR));
 
   /// Transform value of [Right]
-  Future<Either<L, TR>> mapRight<TR>(TR Function(R right) fnR) =>
-      this.then((either) => either.map(fnR));
+  Future<Either<L, TR>> mapRight<TR>(FutureOr<TR> Function(R right) fnR) =>
+      this.then((either) => either.mapAsync(fnR));
 
   /// Transform value of [Left]
-  Future<Either<TL, R>> mapLeft<TL>(TL Function(L left) fnL) =>
-      this.then((either) => either.mapLeft(fnL));
+  Future<Either<TL, R>> mapLeft<TL>(FutureOr<TL> Function(L left) fnL) =>
+      this.then((either) => either.mapLeftAsync(fnL));
 
   /// Transform value of [Right] when transformation may be finished with an error
+  @Deprecated('Should use thenRight')
   Future<Either<L, TR>> thenRightSync<TR>(
           Either<L, TR> Function(R right) fnR) =>
       this.then((either) => either.then(fnR));
 
   /// Transform value of [Left] when transformation may be finished with an [Right]
+  @Deprecated('Should use thenLeft')
   Future<Either<TL, R>> thenLeftSync<TL>(Either<TL, R> Function(L left) fnL) =>
       this.then((either) => either.thenLeft(fnL));
 
   /// Async transform value of [Right]
+  @Deprecated('Should use mapRight')
   Future<Either<L, TR>> mapRightAsync<TR>(Future<TR> Function(R right) fnR) =>
       this.then((either) => either.mapAsync(fnR));
 
   /// Async transform value of [Left]
+  @Deprecated('Should use mapLeft')
   Future<Either<TL, R>> mapLeftAsync<TL>(Future<TL> Function(L left) fnL) =>
       this.then((either) => either.mapLeftAsync(fnL));
 
   /// Async transform value of [Right] when transformation may be finished with an error
   Future<Either<L, TR>> thenRight<TR>(
-          Future<Either<L, TR>> Function(R right) fnR) =>
+          FutureOr<Either<L, TR>> Function(R right) fnR) =>
       this.then((either) => either.thenAsync(fnR));
 
   /// Async transform value of [Left] when transformation may be finished with an [Right]
   Future<Either<TL, R>> thenLeft<TL>(
-          Future<Either<TL, R>> Function(L left) fnL) =>
+          FutureOr<Either<TL, R>> Function(L left) fnL) =>
       this.then((either) => either.thenLeftAsync(fnL));
 
   /// Fold [Left] and [Right] into the value of one type

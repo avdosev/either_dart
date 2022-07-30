@@ -1,3 +1,29 @@
+## [0.2.0] - Update Future[Either]
+
+Updated to support `FutureOr<T>` instead of `Future<T>`:
+  * Either: 
+    * thenAsync
+    * thenLeftAsync
+    * mapAsync
+    * mapLeftAsync
+  * Future[Either]:
+    * thenRight
+    * thenLeft
+
+Updated to support `FutureOr<T>` instead of `T`:
+  * Future[Either]:
+    * mapRight
+    * mapLeft
+
+
+Mark deprecated (not delete):
+ * Future[Either].thenRightSync
+ * Future[Either].thenLeftSync
+ * Future[Either].mapRightAsync
+ * Future[Either].mapLeftAsync
+
+The following methods were not needed after `FutureOr` support, so they are marked Deprecated.
+
 ## [0.1.4] - Update docs
 
 Update: 

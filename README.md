@@ -118,15 +118,11 @@ You don't need to import or use new classes to use it - just use `Future<Either<
 | --- | --- | --- |
 `either<TL, TR>(TL fnL(L left), TR fnR(R right))` | `Future<Either<TL, TR>>` | Transform values of Left and Right
 `fold<T>(T fnL(L left), T fnR(R right))` | `Future<T>` | Fold Left and Right into the value of one type
-`mapRight<TR>(TR fnR(R right))` | `Future<Either<L, TR>>` | Transform value of Right
-`mapRightAsync<TR>(Future<TR> fnR(R right))` | `Future<Either<L, TR>>` | Async transform value of Right
-`mapLeft<TL>(TL fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left
-`mapLeftAsync<TL>(Future<TL> fnL(L left))` | `Future<Either<TL, R>>` | Async transform value of Left
+`mapRight<TR>(FutureOr<TR> fnR(R right))` | `Future<Either<L, TR>>` | Transform value of Right
+`mapLeft<TL>(FutureOr<TL> fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left
 `swap()` | `Future<Either<R, L>>` | Swap Left and Right
-`thenRight<TR>(Future<Either<L, TR>> fnR(R right))` | `Future<Either<L, TR>>` | Async transform value of Right when transformation may be finished with an error
-`thenRightSync<TR>(Either<L, TR> fnR(R right))` | `Future<Either<L, TR>>` | Transform value of Right when transformation may be finished with an error
-`thenLeft<TL>(Future<Either<TL, R>> fnL(L left))` | `Future<Either<TL, R>>` | Async transform value of Left when transformation may be finished with an Right
-`thenLeftSync<TL>(Either<TL, R> fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left when transformation may be finished with an Right
+`thenRight<TR>(FutureOr<Either<L, TR>> fnR(R right))` | `Future<Either<L, TR>>` | Async transform value of Right when transformation may be finished with an error
+`thenLeft<TL>(FutureOr<Either<TL, R>> fnL(L left))` | `Future<Either<TL, R>>` | Async transform value of Left when transformation may be finished with an Right
 
 Example:
 
@@ -135,7 +131,7 @@ Example:
 
 import 'package:either_dart/either.dart';
 import 'package:http/http.dart' as http;
-import 'packege:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
 Future<Either<AppError, http.Response>> safe(Future<http.Response> request) async {
@@ -180,7 +176,7 @@ Future<Either<AppError, dynamic>> parseJson(http.Response response) async {
 Future<Either<AppError, Data>> getDataFromServer() {
   return 
     safe(http.get(Uri('some uri')))
-      .thenRightSync(checkHttpStatus)
+      .thenRight(checkHttpStatus)
       .thenRight(parseJson) 
       .mapRight(Data.fromJson)
 }
