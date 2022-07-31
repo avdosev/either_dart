@@ -100,13 +100,13 @@ TR - new generic `Right` type
 | `fold<T>(T fnL(L left), T fnR(R right))` | `T` | Fold Left and Right into the value of one type
 | `map<TR>(TR fnR(R right))` | `Either<L, TR>` | Transform value of Right
 | `mapLeft<TL>(TL fnL(L left))` | `Either<TL, R>` | Transform value of Left
-| `mapAsync<TR>(Future<TR> fnR(R right))` | `Future<Either<L, TR>>` | Transform value of Right
-| `mapLeftAsync<TL>(Future<TL> fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left
+| `mapAsync<TR>(FutureOr<TR> fnR(R right))` | `Future<Either<L, TR>>` | Transform value of Right
+| `mapLeftAsync<TL>(FutureOr<TL> fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left
 | `swap()` | `Either<R, L>` | Swap Left and Right
 | `then<TR>(Either<L, TR> fnR(R right))` | `Either<L, TR>` | Transform value of Right when transformation may be finished with an error
 | `thenLeft<TL>(Either<TL, R> fnL(L left))` | `Either<TL, R>` | Transform value of Left when transformation may be finished with an Right
-| `thenAsync<TR>(Future<Either<L, TR>> fnR(R right))` | `Future<Either<L, TR>>` | Transform value of Right when transformation may be finished with an error
-| `thenLeftAsync<TL>(Future<Either<TL, R>> fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left when transformation may be finished with an Right
+| `thenAsync<TR>(FutureOr<Either<L, TR>> fnR(R right))` | `Future<Either<L, TR>>` | Transform value of Right when transformation may be finished with an error
+| `thenLeftAsync<TL>(FutureOr<Either<TL, R>> fnL(L left))` | `Future<Either<TL, R>>` | Transform value of Left when transformation may be finished with an Right
 
 ### Advanced usage
 
