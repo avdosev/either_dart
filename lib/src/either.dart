@@ -82,6 +82,17 @@ abstract class Either<L, R> {
   static Either<L, R> condLazy<L, R>(
           bool test, Lazy<L> leftValue, Lazy<R> rightValue) =>
       test ? Right(rightValue()) : Left(leftValue());
+
+  @override
+  bool operator ==(Object obj) {
+    return this.fold(
+      (left) => obj is Left && left == obj.value,
+      (right) => obj is Right && right == obj.value,
+    );
+  }
+
+  @override
+  int get hashCode => fold((left) => left.hashCode, (right) => right.hashCode);
 }
 
 /// Used for "failure"

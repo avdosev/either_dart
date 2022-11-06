@@ -102,4 +102,47 @@ void main() {
             .isRight,
         true);
   });
+
+  group('equal', () {
+    test('Left and Left', () {
+      final x = Left('test');
+      final z = Left('test');
+      expect(x, z);
+      expect(x.hashCode, z.hashCode);
+      expect(x == z, true);
+      expect(x != z, false);
+      expect(Left('1111'), isNot(equals(Left('2222'))));
+      expect(Left('1111'), equals(Left('1111')));
+      expect(Left(null), Left(null));
+      expect(Left(null).hashCode, Left(null).hashCode);
+    });
+
+    test('Right and Left', () {
+      final x = Right('test');
+      final z = Left('test');
+      expect(x != z, true);
+      expect(x == z, false);
+
+      expect(Left('1111'), isNot(equals(Right('2222'))));
+      expect(Left('1111'), isNot(equals(Right('1111'))));
+      expect(Right('1111'), isNot(equals(Left('2222'))));
+      expect(Right('1111'), isNot(equals(Left('1111'))));
+      expect(Left(null), isNot(equals(Right(null))));
+      expect(Right(null), isNot(equals(Left(null))));
+    });
+
+    test('Right and Right', () {
+      final x = Right('test');
+      final z = Right('test');
+
+      expect(x, z);
+      expect(x.hashCode, z.hashCode);
+      expect(x == z, true);
+      expect(x != z, false);
+      expect(Right('1111'), isNot(equals(Right('2222'))));
+      expect(Right('1111'), equals(Right('1111')));
+      expect(Right(null), Right(null));
+      expect(Right(null).hashCode, Right(null).hashCode);
+    });
+  });
 }

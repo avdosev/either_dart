@@ -1,6 +1,6 @@
 name: either_dart
 description: Error handler library for type-safe and easy work with errors on Dart and Flutter. Either is an alternative to Nullable value and Exceptions.
-version: 0.2.0
+version: 0.3.0
 homepage: https://github.com/avdosev
 repository: https://github.com/avdosev/either_dart
 

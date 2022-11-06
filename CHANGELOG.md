@@ -1,3 +1,8 @@
+## [0.3.0] - Add equality and hash override
+
+Either now overrides equality and hash. 
+> Thanks to @memishood for creating the [issue](https://github.com/avdosev/either_dart/issues/5) 
+
 ## [0.2.0] - Update Future[Either]
 
 Updated to support `FutureOr<T>` instead of `Future<T>`:
