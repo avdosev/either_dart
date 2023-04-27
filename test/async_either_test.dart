@@ -80,6 +80,29 @@ void main() {
         false);
   });
 
+  test('async fold', () async {
+    expect(
+        await Left<String, String>("").future.fold<bool>(
+          (left) async {
+            await Future.delayed(const Duration(milliseconds: 500));
+
+            return true;
+          },
+          (right) => false,
+        ),
+        true);
+    expect(
+        await Right<String, String>("").future.fold<bool>(
+          (left) => true,
+          (right) async {
+            await Future.delayed(const Duration(milliseconds: 500));
+
+            return false;
+          },
+        ),
+        false);
+  });
+
   test('swap', () async {
     final maybe = Right<String, bool>(true).future.swap();
     expect(await maybe.isRight, false);

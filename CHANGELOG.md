@@ -1,3 +1,15 @@
+## [0.4.0] - Update Future[Either].fold and Add Either.tryExcept 
+
+Provide more async flexible type support for FutureEither's fold operation. 
+> Thanks to @lukasbalaz for creating the [issue](https://github.com/avdosev/either_dart/issues/6) 
+
+
+add: 
+  * tryExcept -
+  A simple but powerful constructor for exception handling. Just specify the type of error you expect from the function and you will get `Either<ExpectedError, RightType>`
+
+
+
 ## [0.3.0] - Add equality and hash override
 
 Either now overrides equality and hash. 

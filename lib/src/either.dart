@@ -74,6 +74,21 @@ abstract class Either<L, R> {
     }
   }
 
+  /// Constructs a new [Either] from a function that might throw
+  /// 
+  /// simplified version of [Either.tryCatch]
+  ///
+  /// ```dart
+  /// final fileOrError = Either.tryExcept<FileError>(() => /* maybe throw */);
+  /// ```
+  static Either<Err, R> tryExcept<Err extends Object, R>(R Function() fnR) {
+    try {
+      return Right(fnR());
+    } on Err catch (e) {
+      return Left(e);
+    }
+  }
+
   /// If the condition is satify then return [rightValue] in [Right] else [leftValue] in [Left]
   static Either<L, R> cond<L, R>(bool test, L leftValue, R rightValue) =>
       test ? Right(rightValue) : Left(leftValue);

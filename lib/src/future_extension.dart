@@ -54,7 +54,10 @@ extension FutureEither<L, R> on Future<Either<L, R>> {
       this.then((either) => either.thenLeftAsync(fnL));
 
   /// Fold [Left] and [Right] into the value of one type
-  Future<T> fold<T>(T Function(L left) fnL, T Function(R right) fnR) {
+  Future<T> fold<T>(
+    FutureOr<T> Function(L left) fnL,
+    FutureOr<T> Function(R right) fnR,
+  ) {
     return this.then((either) => either.fold(fnL, fnR));
   }
 
