@@ -1,5 +1,7 @@
 ## [1.0.0] - Dart 3 support
 
+*remove deprecated methods from `Future[Either]`*
+
 `Either` is now [sealed](https://dart.dev/language/class-modifiers#sealed) - this gives you support [pattern matching](https://dart.dev/language/patterns).
 
 You now have an alternative for the fold and either
