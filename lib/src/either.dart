@@ -7,7 +7,7 @@ typedef Lazy<T> = T Function();
 ///
 /// [Left] is used for "failure".
 /// [Right] is used for "success".
-abstract class Either<L, R> {
+sealed class Either<L, R> {
   const Either();
 
   /// Represents the left side of [Either] class which by convention is a "Failure".
@@ -89,11 +89,11 @@ abstract class Either<L, R> {
     }
   }
 
-  /// If the condition is satify then return [rightValue] in [Right] else [leftValue] in [Left]
+  /// If the condition is true then return [rightValue] in [Right] else [leftValue] in [Left]
   static Either<L, R> cond<L, R>(bool test, L leftValue, R rightValue) =>
       test ? Right(rightValue) : Left(leftValue);
 
-  /// If the condition is satify then return [rightValue] in [Right] else [leftValue] in [Left]
+  /// If the condition is true then return [rightValue] in [Right] else [leftValue] in [Left]
   static Either<L, R> condLazy<L, R>(
           bool test, Lazy<L> leftValue, Lazy<R> rightValue) =>
       test ? Right(rightValue()) : Left(leftValue());

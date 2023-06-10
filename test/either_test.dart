@@ -145,4 +145,52 @@ void main() {
       expect(Right(null).hashCode, Right(null).hashCode);
     });
   });
+  group('pattern matching', () {
+    test('base', () {
+      final Either either = Left<String, String>("");
+
+      late bool ok;
+      switch (either) {
+        case Left():
+          ok = true;
+        case Right():
+          ok = false;
+      }
+
+      expect(ok, true);
+
+      final Either either2 = Right<String, String>("");
+
+      switch (either2) {
+        case Left():
+          ok = false;
+        case Right():
+          ok = true;
+      }
+
+      expect(ok, true);
+    });
+
+    test('extract left', () {
+      final either = Either.cond(false, 'left', 'right');
+
+      switch (either) {
+        case Left(value: final value):
+          expect(value, 'left');
+        case Right(value: final _):
+          fail('newer been right');
+      }
+    });
+    
+    test('extract right', () {
+      final either = Either.cond(true, 'left', 'right');
+
+      switch (either) {
+        case Left(value: final _):
+          fail('newer been left');
+        case Right(value: final value):
+          expect(value, 'right');
+      }
+    });
+  });
 }
