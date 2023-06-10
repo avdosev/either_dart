@@ -22,27 +22,6 @@ extension FutureEither<L, R> on Future<Either<L, R>> {
   Future<Either<TL, R>> mapLeft<TL>(FutureOr<TL> Function(L left) fnL) =>
       this.then((either) => either.mapLeftAsync(fnL));
 
-  /// Transform value of [Right] when transformation may be finished with an error
-  @Deprecated('Should use thenRight')
-  Future<Either<L, TR>> thenRightSync<TR>(
-          Either<L, TR> Function(R right) fnR) =>
-      this.then((either) => either.then(fnR));
-
-  /// Transform value of [Left] when transformation may be finished with an [Right]
-  @Deprecated('Should use thenLeft')
-  Future<Either<TL, R>> thenLeftSync<TL>(Either<TL, R> Function(L left) fnL) =>
-      this.then((either) => either.thenLeft(fnL));
-
-  /// Async transform value of [Right]
-  @Deprecated('Should use mapRight')
-  Future<Either<L, TR>> mapRightAsync<TR>(Future<TR> Function(R right) fnR) =>
-      this.then((either) => either.mapAsync(fnR));
-
-  /// Async transform value of [Left]
-  @Deprecated('Should use mapLeft')
-  Future<Either<TL, R>> mapLeftAsync<TL>(Future<TL> Function(L left) fnL) =>
-      this.then((either) => either.mapLeftAsync(fnL));
-
   /// Async transform value of [Right] when transformation may be finished with an error
   Future<Either<L, TR>> thenRight<TR>(
           FutureOr<Either<L, TR>> Function(R right) fnR) =>
