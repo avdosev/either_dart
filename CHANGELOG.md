@@ -1,3 +1,41 @@
+## [1.0.0] - Dart 3 support
+
+`Either` is now [sealed](https://dart.dev/language/class-modifiers#sealed) - this gives you support [pattern matching](https://dart.dev/language/patterns).
+
+You now have an alternative for the fold and either
+
+before:
+```dart
+
+final either = ...;
+
+final result = either.fold(
+  (left) => do something with left
+  (right) => do something with right
+);
+
+```
+
+after:
+```dart
+
+final either = ...;
+
+switch (either) {
+  case Left(value: final left):
+    do something with left
+  case Right(value: final right):
+    do something with right
+}
+
+```
+
+> Thanks to @dballance for creating the [issue](https://github.com/avdosev/either_dart/issues/7)
+
+Also, you can still use: \
+`either.isLeft` - check either is left \
+`either.isRight`- check either is right
+
 ## [0.4.0] - Update Future[Either].fold and Add Either.tryExcept 
 
 Provide more async flexible type support for FutureEither's fold operation. 
